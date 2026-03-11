@@ -72,7 +72,7 @@ export default function AdminProducts() {
       setShowForm(false);
     } catch (err) {
       console.error('Lỗi lưu sản phẩm:', err);
-      alert('Lỗi: ' + (err?.message || JSON.stringify(err)));
+      alert('Có lỗi xảy ra khi lưu sản phẩm. Vui lòng thử lại!');
     } finally {
       setSaving(false);
     }
