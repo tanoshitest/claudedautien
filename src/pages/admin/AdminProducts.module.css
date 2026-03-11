@@ -194,3 +194,29 @@
   transition: background 0.2s;
 }
 .saveBtn:hover { background: var(--primary-dark); }
+
+/* Error message */
+.errMsg { font-size: 0.75rem; color: var(--primary); margin-top: 2px; }
+
+/* Image preview in form */
+.imgPreview {
+  margin-top: 8px;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid var(--border);
+}
+
+/* No image placeholder in table */
+.noImg {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}

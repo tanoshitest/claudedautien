@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { products } from '../../data/products';
+import { useProducts } from '../../context/ProductContext';
 import { useOrders } from '../../context/OrderContext';
 import styles from './Dashboard.module.css';
 
@@ -16,6 +16,7 @@ const STATUS_LABEL = {
 };
 
 export default function Dashboard() {
+  const { products } = useProducts();
   const { orders } = useOrders();
 
   const totalRevenue = useMemo(

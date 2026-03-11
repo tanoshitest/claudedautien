@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { products } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 import { useCart } from '../context/CartContext';
 import ProductCard from '../components/ProductCard';
 import styles from './ProductDetail.module.css';
@@ -10,6 +10,7 @@ const formatPrice = (price) =>
 
 export default function ProductDetail() {
   const { id } = useParams();
+  const { products } = useProducts();
   const product = products.find((p) => p.id === Number(id));
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);

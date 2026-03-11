@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { products, categories } from '../data/products';
+import { useProducts, CATEGORIES } from '../context/ProductContext';
 import ProductCard from '../components/ProductCard';
 import styles from './Shop.module.css';
 
@@ -12,6 +12,7 @@ const sortOptions = [
 ];
 
 export default function Shop() {
+  const { products } = useProducts();
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeCategory, setActiveCategory] = useState('Tất cả');
   const [sort, setSort] = useState('default');
@@ -61,7 +62,7 @@ export default function Shop() {
 
         <div className={styles.toolbar}>
           <div className={styles.categories}>
-            {categories.map((cat) => (
+            {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 className={`${styles.catBtn} ${activeCategory === cat ? styles.active : ''}`}

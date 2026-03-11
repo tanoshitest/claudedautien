@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { products } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 import ProductCard from '../components/ProductCard';
 import styles from './Home.module.css';
 
@@ -11,6 +11,7 @@ const features = [
 ];
 
 export default function Home() {
+  const { products } = useProducts();
   const featured = products.slice(0, 4);
   const bestsellers = products.filter((p) => p.tag === 'Bán chạy');
 

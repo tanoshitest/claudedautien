@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { products as initialProducts } from '../../data/products';
+import { useProducts, CATEGORIES } from '../../context/ProductContext';
 import styles from './AdminProducts.module.css';
 
 const formatPrice = (p) =>
   new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(p);
+
+const PRODUCT_CATEGORIES = CATEGORIES.filter((c) => c !== 'Tất cả');
 
 const EMPTY_FORM = {
   name: '', category: 'Stationery', price: '', originalPrice: '',
@@ -11,11 +13,12 @@ const EMPTY_FORM = {
 };
 
 export default function AdminProducts() {
-  const [products, setProducts] = useState(initialProducts);
+  const { products, addProduct, updateProduct, deleteProduct } = useProducts();
   const [showForm, setShowForm] = useState(false);
   const [editId,   setEditId]   = useState(null);
   const [form,     setForm]     = useState(EMPTY_FORM);
   const [search,   setSearch]   = useState('');
+  const [errors,   setErrors]   = useState({});
 
   const filtered = products.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase())
@@ -27,36 +30,48 @@ export default function AdminProducts() {
   const openAdd = () => {
     setForm(EMPTY_FORM);
     setEditId(null);
+    setErrors({});
     setShowForm(true);
   };
 
   const openEdit = (p) => {
-    setForm({ ...p, price: p.price, originalPrice: p.originalPrice || '', stock: p.stock ?? 100 });
+    setForm({
+      name: p.name,
+      category: p.category,
+      price: p.price,
+      originalPrice: p.originalPrice || '',
+      image: p.image || '',
+      tag: p.tag || '',
+      description: p.description || '',
+      stock: p.stock ?? 100,
+    });
     setEditId(p.id);
+    setErrors({});
     setShowForm(true);
   };
 
+  const validate = () => {
+    const e = {};
+    if (!form.name.trim()) e.name = 'Vui lòng nhập tên sản phẩm';
+    if (!form.price || +form.price <= 0) e.price = 'Vui lòng nhập giá hợp lệ';
+    return e;
+  };
+
   const handleSave = () => {
-    if (!form.name || !form.price) return;
+    const e = validate();
+    if (Object.keys(e).length) { setErrors(e); return; }
+
     if (editId) {
-      setProducts((prev) =>
-        prev.map((p) => p.id === editId ? { ...p, ...form, price: +form.price, originalPrice: form.originalPrice ? +form.originalPrice : null } : p)
-      );
+      updateProduct(editId, form);
     } else {
-      const newProduct = {
-        ...form, id: Date.now(),
-        price: +form.price,
-        originalPrice: form.originalPrice ? +form.originalPrice : null,
-        rating: 0, reviews: 0,
-      };
-      setProducts((prev) => [newProduct, ...prev]);
+      addProduct(form);
     }
     setShowForm(false);
   };
 
   const handleDelete = (id) => {
     if (window.confirm('Xác nhận xóa sản phẩm này?')) {
-      setProducts((prev) => prev.filter((p) => p.id !== id));
+      deleteProduct(id);
     }
   };
 
@@ -92,11 +107,17 @@ export default function AdminProducts() {
             </tr>
           </thead>
           <tbody>
+            {filtered.length === 0 && (
+              <tr><td colSpan={6} style={{ textAlign: 'center', padding: '32px', color: '#999' }}>Không tìm thấy sản phẩm nào</td></tr>
+            )}
             {filtered.map((p) => (
               <tr key={p.id}>
                 <td>
                   <div className={styles.productCell}>
-                    <img src={p.image} alt={p.name} />
+                    {p.image
+                      ? <img src={p.image} alt={p.name} onError={(e) => { e.target.style.display='none'; }} />
+                      : <div className={styles.noImg}>🖼️</div>
+                    }
                     <span>{p.name}</span>
                   </div>
                 </td>
@@ -126,58 +147,75 @@ export default function AdminProducts() {
         <div className={styles.overlay} onClick={() => setShowForm(false)}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalHeader}>
-              <h3>{editId ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm mới'}</h3>
+              <h3>{editId ? '✏️ Chỉnh sửa sản phẩm' : '➕ Thêm sản phẩm mới'}</h3>
               <button onClick={() => setShowForm(false)}>✕</button>
             </div>
 
             <div className={styles.formGrid}>
-              <div className={styles.field}>
+              <div className={`${styles.field} ${styles.full}`}>
                 <label>Tên sản phẩm *</label>
-                <input name="name" value={form.name} onChange={handleChange} placeholder="Tên sản phẩm" />
+                <input name="name" value={form.name} onChange={handleChange} placeholder="VD: Matcha Latte Kit" />
+                {errors.name && <span className={styles.errMsg}>{errors.name}</span>}
               </div>
+
               <div className={styles.field}>
                 <label>Danh mục</label>
                 <select name="category" value={form.category} onChange={handleChange}>
-                  {['Drinks','Stationery','Accessories','Home','Kitchen'].map((c) => (
+                  {PRODUCT_CATEGORIES.map((c) => (
                     <option key={c}>{c}</option>
                   ))}
                 </select>
               </div>
-              <div className={styles.field}>
-                <label>Giá bán *</label>
-                <input name="price" type="number" value={form.price} onChange={handleChange} placeholder="185000" />
-              </div>
-              <div className={styles.field}>
-                <label>Giá gốc (nếu có)</label>
-                <input name="originalPrice" type="number" value={form.originalPrice} onChange={handleChange} placeholder="220000" />
-              </div>
-              <div className={`${styles.field} ${styles.full}`}>
-                <label>URL ảnh</label>
-                <input name="image" value={form.image} onChange={handleChange} placeholder="https://..." />
-              </div>
+
               <div className={styles.field}>
                 <label>Tag</label>
                 <select name="tag" value={form.tag || ''} onChange={handleChange}>
                   <option value="">-- Không có --</option>
-                  {['Bán chạy','Mới','Giảm giá','Yêu thích'].map((t) => (
+                  {['Bán chạy', 'Mới', 'Giảm giá', 'Yêu thích'].map((t) => (
                     <option key={t}>{t}</option>
                   ))}
                 </select>
               </div>
+
+              <div className={styles.field}>
+                <label>Giá bán (VNĐ) *</label>
+                <input name="price" type="number" min="0" value={form.price} onChange={handleChange} placeholder="185000" />
+                {errors.price && <span className={styles.errMsg}>{errors.price}</span>}
+              </div>
+
+              <div className={styles.field}>
+                <label>Giá gốc (nếu giảm giá)</label>
+                <input name="originalPrice" type="number" min="0" value={form.originalPrice} onChange={handleChange} placeholder="220000" />
+              </div>
+
               <div className={styles.field}>
                 <label>Tồn kho</label>
-                <input name="stock" type="number" value={form.stock} onChange={handleChange} />
+                <input name="stock" type="number" min="0" value={form.stock} onChange={handleChange} />
               </div>
+
               <div className={`${styles.field} ${styles.full}`}>
-                <label>Mô tả</label>
-                <textarea name="description" value={form.description} onChange={handleChange} rows={3} placeholder="Mô tả sản phẩm..." />
+                <label>URL ảnh sản phẩm</label>
+                <input name="image" value={form.image} onChange={handleChange} placeholder="https://images.unsplash.com/..." />
+                {form.image && (
+                  <img
+                    src={form.image}
+                    alt="preview"
+                    className={styles.imgPreview}
+                    onError={(e) => { e.target.style.display = 'none'; }}
+                  />
+                )}
+              </div>
+
+              <div className={`${styles.field} ${styles.full}`}>
+                <label>Mô tả sản phẩm</label>
+                <textarea name="description" value={form.description} onChange={handleChange} rows={3} placeholder="Mô tả ngắn về sản phẩm..." />
               </div>
             </div>
 
             <div className={styles.modalFooter}>
               <button className={styles.cancelModalBtn} onClick={() => setShowForm(false)}>Hủy</button>
               <button className={styles.saveBtn} onClick={handleSave}>
-                {editId ? 'Lưu thay đổi' : 'Thêm sản phẩm'}
+                {editId ? '💾 Lưu thay đổi' : '✅ Thêm sản phẩm'}
               </button>
             </div>
           </div>

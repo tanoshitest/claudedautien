@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
-import { CartProvider }  from './context/CartContext';
-import { AuthProvider }  from './context/AuthContext';
-import { OrderProvider } from './context/OrderContext';
+import { CartProvider }    from './context/CartContext';
+import { AuthProvider }    from './context/AuthContext';
+import { OrderProvider }   from './context/OrderContext';
+import { ProductProvider } from './context/ProductContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Public layout
@@ -38,8 +39,9 @@ function PublicLayout() {
 export default function App() {
   return (
     <AuthProvider>
-      <OrderProvider>
-        <CartProvider>
+      <ProductProvider>
+        <OrderProvider>
+          <CartProvider>
           <BrowserRouter>
             <Routes>
               {/* Public routes */}
@@ -71,8 +73,9 @@ export default function App() {
             </Route>
             </Routes>
           </BrowserRouter>
-        </CartProvider>
-      </OrderProvider>
+          </CartProvider>
+        </OrderProvider>
+      </ProductProvider>
     </AuthProvider>
   );
 }
