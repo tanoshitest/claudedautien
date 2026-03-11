@@ -56,32 +56,34 @@ export default function Checkout() {
     if (Object.keys(errs).length) { setErrors(errs); return; }
 
     setLoading(true);
-    // Giả lập delay xử lý
-    await new Promise((r) => setTimeout(r, 800));
-
-    const order = placeOrder({
-      items: items.map((i) => ({
-        product: i.id,
-        name: i.name,
-        image: i.image,
-        price: i.price,
-        qty: i.qty,
-      })),
-      shippingAddress: {
-        name:   form.name.trim(),
-        phone:  form.phone.trim(),
-        street: form.street.trim(),
-        city:   form.city.trim(),
-      },
-      note:          form.note.trim(),
-      paymentMethod: payment,
-      itemsPrice:    totalPrice,
-      shippingPrice,
-      totalPrice:    total,
-    });
-
-    clearCart();
-    navigate(`/order-success/${order._id}`);
+    try {
+      const order = await placeOrder({
+        items: items.map((i) => ({
+          product: i.id,
+          name: i.name,
+          image: i.image,
+          price: i.price,
+          qty: i.qty,
+        })),
+        shippingAddress: {
+          name:   form.name.trim(),
+          phone:  form.phone.trim(),
+          street: form.street.trim(),
+          city:   form.city.trim(),
+        },
+        note:          form.note.trim(),
+        paymentMethod: payment,
+        itemsPrice:    totalPrice,
+        shippingPrice,
+        totalPrice:    total,
+      });
+      clearCart();
+      navigate(`/order-success/${order._id}`);
+    } catch (err) {
+      console.error('Lỗi đặt hàng:', err);
+      alert('Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại!');
+      setLoading(false);
+    }
   };
 
   return (

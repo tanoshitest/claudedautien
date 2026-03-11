@@ -14,8 +14,16 @@ const STATUS_STEPS = [
 
 export default function OrderSuccess() {
   const { id } = useParams();
-  const { orders } = useOrders();
+  const { orders, loading } = useOrders();
   const order = orders.find((o) => o._id === id);
+
+  if (loading) {
+    return (
+      <div className={styles.notFound}>
+        <p>⏳ Đang tải thông tin đơn hàng...</p>
+      </div>
+    );
+  }
 
   if (!order) {
     return (
