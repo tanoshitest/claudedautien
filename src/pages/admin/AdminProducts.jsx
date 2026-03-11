@@ -19,6 +19,7 @@ export default function AdminProducts() {
   const [form,     setForm]     = useState(EMPTY_FORM);
   const [search,   setSearch]   = useState('');
   const [errors,   setErrors]   = useState({});
+  const [saving,   setSaving]   = useState(false);
 
   const filtered = products.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase())
@@ -57,16 +58,24 @@ export default function AdminProducts() {
     return e;
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const e = validate();
     if (Object.keys(e).length) { setErrors(e); return; }
 
-    if (editId) {
-      updateProduct(editId, form);
-    } else {
-      addProduct(form);
+    setSaving(true);
+    try {
+      if (editId) {
+        await updateProduct(editId, form);
+      } else {
+        await addProduct(form);
+      }
+      setShowForm(false);
+    } catch (err) {
+      console.error('Lỗi lưu sản phẩm:', err);
+      alert('Có lỗi xảy ra khi lưu sản phẩm. Vui lòng thử lại!');
+    } finally {
+      setSaving(false);
     }
-    setShowForm(false);
   };
 
   const handleDelete = (id) => {
@@ -214,8 +223,8 @@ export default function AdminProducts() {
 
             <div className={styles.modalFooter}>
               <button className={styles.cancelModalBtn} onClick={() => setShowForm(false)}>Hủy</button>
-              <button className={styles.saveBtn} onClick={handleSave}>
-                {editId ? '💾 Lưu thay đổi' : '✅ Thêm sản phẩm'}
+              <button className={styles.saveBtn} onClick={handleSave} disabled={saving}>
+                {saving ? '⏳ Đang lưu...' : editId ? '💾 Lưu thay đổi' : '✅ Thêm sản phẩm'}
               </button>
             </div>
           </div>

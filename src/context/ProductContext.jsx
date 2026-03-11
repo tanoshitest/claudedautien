@@ -91,9 +91,8 @@ export function ProductProvider({ children }) {
       .select()
       .single();
 
-    if (!error && data) {
-      setProducts((prev) => [fromDB(data), ...prev]);
-    }
+    if (error) throw error;
+    setProducts((prev) => [fromDB(data), ...prev]);
     return data;
   };
 
@@ -112,32 +111,31 @@ export function ProductProvider({ children }) {
       })
       .eq('id', id);
 
-    if (!error) {
-      setProducts((prev) =>
-        prev.map((p) =>
-          p.id === id
-            ? {
-                ...p,
-                name: formData.name.trim(),
-                category: formData.category,
-                price: +formData.price,
-                originalPrice: formData.originalPrice ? +formData.originalPrice : null,
-                image: formData.image.trim(),
-                tag: formData.tag || '',
-                description: formData.description.trim(),
-                stock: +formData.stock || 100,
-              }
-            : p
-        )
-      );
-    }
+    if (error) throw error;
+
+    setProducts((prev) =>
+      prev.map((p) =>
+        p.id === id
+          ? {
+              ...p,
+              name: formData.name.trim(),
+              category: formData.category,
+              price: +formData.price,
+              originalPrice: formData.originalPrice ? +formData.originalPrice : null,
+              image: formData.image.trim(),
+              tag: formData.tag || '',
+              description: formData.description.trim(),
+              stock: +formData.stock || 100,
+            }
+          : p
+      )
+    );
   };
 
   const deleteProduct = async (id) => {
     const { error } = await supabase.from('products').delete().eq('id', id);
-    if (!error) {
-      setProducts((prev) => prev.filter((p) => p.id !== id));
-    }
+    if (error) throw error;
+    setProducts((prev) => prev.filter((p) => p.id !== id));
   };
 
   return (
