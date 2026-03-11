@@ -1,0 +1,265 @@
+.main {
+  min-height: calc(100vh - 100px);
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.container h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--secondary);
+  margin-bottom: 32px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Items */
+.items {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.item img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.itemInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemCat {
+  font-size: 0.72rem;
+  color: var(--primary);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.itemInfo h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 2px 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemInfo h3:hover {
+  color: var(--primary);
+}
+
+.itemPrice {
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+.qtyControl {
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.qtyControl button {
+  background: var(--bg);
+  padding: 6px 10px;
+  font-size: 1rem;
+  color: var(--text);
+  transition: background 0.15s;
+}
+
+.qtyControl button:hover {
+  background: var(--border);
+}
+
+.qtyControl span {
+  padding: 6px 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  min-width: 36px;
+  text-align: center;
+}
+
+.itemTotal {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 0.95rem;
+  min-width: 90px;
+  text-align: right;
+}
+
+.removeBtn {
+  background: none;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  padding: 4px;
+  transition: color 0.15s;
+}
+
+.removeBtn:hover {
+  color: var(--primary);
+}
+
+.clearBtn {
+  display: block;
+  margin: 16px 24px;
+  background: none;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.clearBtn:hover {
+  color: var(--primary);
+}
+
+/* Summary */
+.summary {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.summary h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.shippingNote {
+  font-size: 0.78rem;
+  color: var(--primary);
+  background: #fff0ee;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+}
+
+.totalRow {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.checkoutBtn {
+  display: block;
+  text-align: center;
+  width: 100%;
+  padding: 14px;
+  background: var(--primary);
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+
+.checkoutBtn:hover {
+  background: var(--primary-dark);
+}
+
+.continueLink {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  transition: color 0.2s;
+}
+
+.continueLink:hover {
+  color: var(--primary);
+}
+
+/* Empty */
+.empty {
+  text-align: center;
+  padding: 100px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.empty span {
+  font-size: 4rem;
+}
+
+.empty h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.empty p {
+  color: var(--text-light);
+}
+
+.shopBtn {
+  margin-top: 8px;
+  background: var(--primary);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.shopBtn:hover {
+  background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .itemTotal {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .item {
+    flex-wrap: wrap;
+  }
+}

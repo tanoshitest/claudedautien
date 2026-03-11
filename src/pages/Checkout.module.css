@@ -1,0 +1,221 @@
+.main { min-height: 100vh; background: var(--bg); }
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+}
+
+.title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--secondary);
+  margin-bottom: 28px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 24px;
+  align-items: start;
+}
+
+.left, .right { display: flex; flex-direction: column; gap: 20px; }
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+}
+
+.card h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--secondary);
+  margin-bottom: 18px;
+}
+
+/* Form fields */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.field:last-child { margin-bottom: 0; }
+
+.field label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.field input,
+.field select,
+.field textarea {
+  padding: 10px 13px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  font-size: 0.88rem;
+  color: var(--text);
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  background: white;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus { border-color: var(--primary); }
+
+.field textarea { resize: none; }
+
+.err { font-size: 0.75rem; color: var(--primary); }
+
+/* Payment */
+.paymentList { display: flex; flex-direction: column; gap: 10px; }
+
+.paymentOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.paymentOption input[type="radio"] { display: none; }
+
+.paymentOption.selected {
+  border-color: var(--primary);
+  background: #fff5f3;
+  color: var(--primary);
+}
+
+.payIcon { font-size: 1.2rem; }
+
+.bankInfo {
+  margin-top: 14px;
+  background: #f0f7ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 0.84rem;
+  line-height: 1.8;
+  color: #1e40af;
+}
+
+/* Order summary */
+.itemList { display: flex; flex-direction: column; gap: 12px; margin-bottom: 4px; }
+
+.orderItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.itemImg { position: relative; flex-shrink: 0; }
+.itemImg img {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.qty {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--secondary);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.itemName {
+  flex: 1;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.itemPrice {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.divider { height: 1px; background: var(--border); margin: 14px 0; }
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+
+.totalRow {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0;
+}
+
+.submitBtn {
+  width: 100%;
+  margin-top: 18px;
+  padding: 14px;
+  background: var(--primary);
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 12px;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.submitBtn:disabled { opacity: 0.65; cursor: not-allowed; }
+
+.backLink {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  font-size: 0.84rem;
+  color: var(--text-light);
+  transition: color 0.2s;
+}
+
+.backLink:hover { color: var(--primary); }
+
+.empty {
+  text-align: center;
+  padding: 80px 24px;
+  font-size: 1rem;
+  color: var(--text-light);
+}
+
+.empty a { color: var(--primary); font-weight: 600; }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .right { order: -1; }
+}
+
+@media (max-width: 540px) {
+  .grid2 { grid-template-columns: 1fr; }
+}

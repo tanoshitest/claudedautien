@@ -1,0 +1,196 @@
+.page { padding: 32px; display: flex; flex-direction: column; gap: 20px; }
+
+.header { display: flex; justify-content: space-between; align-items: center; }
+.header h1 { font-size: 1.6rem; font-weight: 800; color: var(--secondary); }
+.header p  { color: var(--text-light); font-size: 0.9rem; margin-top: 4px; }
+
+.addBtn {
+  padding: 10px 20px;
+  background: var(--primary);
+  color: white;
+  font-size: 0.88rem;
+  font-weight: 700;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+.addBtn:hover { background: var(--primary-dark); }
+
+.toolbar { display: flex; gap: 12px; }
+
+.search {
+  padding: 10px 16px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  font-size: 0.88rem;
+  width: 300px;
+  outline: none;
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+.search:focus { border-color: var(--primary); }
+
+.tableWrap {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  overflow-x: auto;
+}
+
+.table { width: 100%; border-collapse: collapse; font-size: 0.855rem; }
+
+.table th {
+  text-align: left;
+  padding: 12px 16px;
+  color: var(--text-light);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border-bottom: 1px solid var(--border);
+}
+
+.table td { padding: 14px 16px; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
+.table tr:last-child td { border-bottom: none; }
+.table tbody tr:hover { background: #fafafa; }
+
+.productCell { display: flex; align-items: center; gap: 12px; }
+.productCell img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+.productCell span { font-weight: 600; color: var(--text); font-size: 0.875rem; }
+
+.cat {
+  background: #f0f0f0;
+  color: #666;
+  padding: 3px 10px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.price { color: var(--primary); font-weight: 700; }
+.orig  { font-size: 0.75rem; color: var(--text-light); text-decoration: line-through; margin-top: 2px; }
+.reviews { color: var(--text-light); }
+
+.tag {
+  background: #fff0ee;
+  color: var(--primary);
+  padding: 3px 10px;
+  border-radius: 50px;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.actions { display: flex; gap: 6px; }
+
+.editBtn {
+  padding: 5px 10px;
+  background: #f0f0f0;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  transition: background 0.15s;
+}
+.editBtn:hover { background: #e0e0e0; }
+
+.deleteBtn {
+  padding: 5px 8px;
+  background: #fff0ee;
+  color: var(--primary);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  transition: background 0.15s;
+}
+.deleteBtn:hover { background: #ffd6ce; }
+
+/* Modal */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 24px;
+}
+
+.modal {
+  background: white;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modalHeader h3 { font-size: 1rem; font-weight: 700; color: var(--secondary); }
+.modalHeader button { background: none; font-size: 1.1rem; color: var(--text-light); }
+.modalHeader button:hover { color: var(--primary); }
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 20px 24px;
+}
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field.full { grid-column: 1 / -1; }
+
+.field label { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+
+.field input,
+.field select,
+.field textarea {
+  padding: 10px 12px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  color: var(--text);
+  background: white;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus { border-color: var(--primary); }
+
+.field textarea { resize: vertical; }
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+}
+
+.cancelModalBtn {
+  padding: 10px 20px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.15s;
+}
+.cancelModalBtn:hover { border-color: var(--primary); color: var(--primary); }
+
+.saveBtn {
+  padding: 10px 24px;
+  background: var(--primary);
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+.saveBtn:hover { background: var(--primary-dark); }

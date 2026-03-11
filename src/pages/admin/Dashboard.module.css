@@ -1,0 +1,220 @@
+.page {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.header h1 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--secondary);
+}
+
+.header p {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* Stats */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.statCard {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+
+.statIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.statLabel {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  margin-bottom: 2px;
+}
+
+.statValue {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--secondary);
+}
+
+/* Section */
+.section {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.sectionHeader h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.sectionHeader a {
+  font-size: 0.82rem;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Table */
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.855rem;
+}
+
+.table th {
+  text-align: left;
+  padding: 10px 12px;
+  color: var(--text-light);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border-bottom: 1px solid var(--border);
+}
+
+.table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #f3f4f6;
+  color: var(--text);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table td p {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+.orderId {
+  font-weight: 700;
+  font-family: monospace;
+  color: var(--primary) !important;
+}
+
+.price {
+  font-weight: 700;
+  color: var(--primary) !important;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Products */
+.productList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.productRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px;
+  border-radius: 10px;
+  transition: background 0.15s;
+}
+
+.productRow:hover {
+  background: #fafafa;
+}
+
+.productRow img {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.productInfo {
+  flex: 1;
+}
+
+.productInfo strong {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.productInfo p {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+.productMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.productMeta span {
+  font-size: 0.78rem;
+  color: #f59e0b;
+}
+
+.productMeta strong {
+  font-size: 0.88rem;
+  color: var(--primary);
+}
+
+@media (max-width: 1024px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 16px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}
