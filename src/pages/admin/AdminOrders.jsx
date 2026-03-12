@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useOrders } from '../../context/OrderContext';
+import { sendStatusUpdateEmail } from '../../lib/emailService';
 import styles from './AdminOrders.module.css';
 
 const formatPrice = (p) =>
@@ -28,8 +29,14 @@ export default function AdminOrders() {
 
   const filtered = filter === 'all' ? orders : orders.filter((o) => o.status === filter);
 
-  const updateStatus = (id, newStatus) => {
-    updateOrderStatus(id, newStatus);
+  const updateStatus = async (id, newStatus) => {
+    await updateOrderStatus(id, newStatus);
+    // Tìm order và gửi email thông báo cho khách
+    const order = orders.find((o) => o._id === id);
+    if (order) {
+      const updatedOrder = { ...order, status: newStatus };
+      sendStatusUpdateEmail(updatedOrder); // không await — không block UI
+    }
     if (selected?._id === id) {
       setSelected((prev) => ({ ...prev, status: newStatus }));
     }

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useOrders } from '../context/OrderContext';
+import { sendNewOrderEmail } from '../lib/emailService';
 import styles from './Checkout.module.css';
 
 const formatPrice = (p) =>
@@ -18,7 +19,7 @@ export default function Checkout() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    name: '', phone: '', street: '', city: '', note: '',
+    name: '', email: '', phone: '', street: '', city: '', note: '',
   });
   const [payment, setPayment]   = useState('cod');
   const [loading, setLoading]   = useState(false);
@@ -38,6 +39,8 @@ export default function Checkout() {
   const validate = () => {
     const e = {};
     if (!form.name.trim())   e.name   = 'Vui lòng nhập họ tên';
+    if (!form.email.trim())  e.email  = 'Vui lòng nhập email';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Email không hợp lệ';
     if (!form.phone.trim())  e.phone  = 'Vui lòng nhập số điện thoại';
     if (!/^0\d{9}$/.test(form.phone.replace(/\s/g, ''))) e.phone = 'Số điện thoại không hợp lệ';
     if (!form.street.trim()) e.street = 'Vui lòng nhập địa chỉ';
@@ -67,6 +70,7 @@ export default function Checkout() {
         })),
         shippingAddress: {
           name:   form.name.trim(),
+          email:  form.email.trim(),
           phone:  form.phone.trim(),
           street: form.street.trim(),
           city:   form.city.trim(),
@@ -78,6 +82,8 @@ export default function Checkout() {
         totalPrice:    total,
       });
       clearCart();
+      // Gửi email không đồng bộ — không block navigate
+      sendNewOrderEmail(order);
       navigate(`/order-success/${order._id}`);
     } catch (err) {
       console.error('Lỗi đặt hàng:', err);
@@ -109,6 +115,11 @@ export default function Checkout() {
                   <input name="phone" value={form.phone} onChange={handleChange} placeholder="0901 234 567" />
                   {errors.phone && <span className={styles.err}>{errors.phone}</span>}
                 </div>
+              </div>
+              <div className={styles.field}>
+                <label>Email nhận xác nhận đơn hàng *</label>
+                <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="example@gmail.com" />
+                {errors.email && <span className={styles.err}>{errors.email}</span>}
               </div>
               <div className={styles.field}>
                 <label>Địa chỉ (số nhà, tên đường) *</label>
